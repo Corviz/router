@@ -1,0 +1,17 @@
+{
+    "name": "corviz/router",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Corviz\\Router\\": "src/"
+        }
+    },
+    "suggest": {
+        "corviz/di-container": "1.*"
+    },
+    "require": {
+        "php": ">=8.1",
+        "corviz/di-container": "^1.0"
+    }
+}
