@@ -2,16 +2,14 @@
     "name": "corviz/router",
     "type": "library",
     "license": "MIT",
+    "description": "Routing system based on regular expressions for PHP 8.1+ with native Middleware support",
+    "keywords": ["routing","middleware","controller","php8"],
     "autoload": {
         "psr-4": {
             "Corviz\\Router\\": "src/"
         }
     },
-    "suggest": {
-        "corviz/di-container": "1.*"
-    },
     "require": {
-        "php": ">=8.1",
-        "corviz/di-container": "^1.0"
+        "php": ">=8.1"
     }
 }
