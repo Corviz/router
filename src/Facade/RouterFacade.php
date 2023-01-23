@@ -19,7 +19,7 @@ use Corviz\Router\Route;
  */
 class RouterFacade
 {
-    private static ?Dispatcher $dispatcher = null;
+    protected static ?Dispatcher $dispatcher = null;
 
     public static function dispatch(?string $method = null, ?string $path = null, array &$params = []): ?Route
     {

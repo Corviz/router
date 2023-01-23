@@ -9,13 +9,13 @@ class Route
     /**
      * @var Route
      */
-    private static ?Route $groupTo = null;
+    protected static ?Route $groupTo = null;
 
-    private mixed $action = null;
-    private ?string $alias = null;
-    private ?string $method = null;
-    private array $middlewares = [];
-    private string $pattern = '';
+    protected mixed $action = null;
+    protected ?string $alias = null;
+    protected ?string $method = null;
+    protected array $middlewares = [];
+    protected string $pattern = '';
 
     /**
      * @return static

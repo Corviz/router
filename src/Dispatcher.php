@@ -22,7 +22,7 @@ class Dispatcher
     /**
      * @var Route[]
      */
-    private array $routes = [];
+    protected array $routes = [];
 
     /**
      * @param string $pattern
