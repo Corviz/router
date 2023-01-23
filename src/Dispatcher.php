@@ -85,21 +85,11 @@ class Dispatcher
     }
 
     /**
-     * @param Route $route
-     *
-     * @return void
-     */
-    protected function register(Route $route): void
-    {
-        $this->routes[] = $route;
-    }
-
-    /**
      * @param string|null $method
      * @return Route
      * @throws Exception
      */
-    private function createRoute(string $pattern, ?string $method = null): Route
+    protected function createRoute(string $pattern, ?string $method = null): Route
     {
         $route = Route::create()->pattern($pattern);
         $method && $route->method($method);
@@ -107,6 +97,16 @@ class Dispatcher
         $this->register($route);
 
         return $route;
+    }
+
+    /**
+     * @param Route $route
+     *
+     * @return void
+     */
+    protected function register(Route $route): void
+    {
+        $this->routes[] = $route;
     }
 
     /**
