@@ -29,7 +29,7 @@ class RouterFacade
     /**
      * @return Dispatcher
      */
-    private static function dispatcher(): Dispatcher
+    protected static function dispatcher(): Dispatcher
     {
         if (!self::$dispatcher) {
             self::$dispatcher = new Dispatcher();
