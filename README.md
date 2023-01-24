@@ -19,7 +19,6 @@ First, you have to declare you application routes:
 
 ```php
 use Corviz\Router\Facade\RouterFacade as Router;
-use Corviz\Router\RouteExecutor;
 
 /*
  * Application routes
@@ -36,12 +35,8 @@ Route::get('/user/(\d+)', function(int $id){
 Then, execute and output the results.
 
 ```php
-$params = [];
-$route = Router::dispatch(params: $params);
-!$route && http_response_code(404);
-
-$output = RouteExecutor::with($route)->execute($params);
-echo $output;
+echo Router::dispatch();
+!Router::found() && http_response_code(404);
 ```
 **Note:** _$output_ contains the value that was returned by controllers (a string in this example). 
 
@@ -160,4 +155,45 @@ Router::prefix('api')
     ->middleware(CheckTokenMiddleware::class)
     ->middleware(AcceptJsonMiddleware::class)
     ->group(function() { /* ... */ });
+```
+
+## Determine the current path and method manually
+
+The 'dispatch()' method reads 'REQUEST_METHOD' and 'REQUEST_URI' indexes from *$_SERVER* superglobal to determine which 
+route will be executed. 
+
+However, you may want to inform it manually. If so, just feed it as follows:
+
+```php
+$method = 'GET'; //or POST, PUT, PATCH, DELETE...
+$path = 'users/1/show';
+
+$output = Router::dispatch($method, $path);
+```
+
+## Multiple routers
+
+If you have to work with multiple routers for whatever reason, all you have to do is the class Dispatcher,
+instead of the router facade
+
+```php
+use Corviz\Router\Dispatcher;
+
+$router = new Dispatcher();
+$router2 = new Dispatcher();
+$router3 = new Dispatcher();
+//so on...
+```
+
+Then, register and execute the routes as usual:
+
+```php
+$router1->get('route1', /* ... */);
+$router1->prefix('group1')->group(function() use (&$router1){
+    $router1->get('route2', /* ... */);
+    $router1->get('route3', /* ... */);
+});
+
+echo $router1->dispatch();
+!$router1->found() && http_response_code(404);
 ```
