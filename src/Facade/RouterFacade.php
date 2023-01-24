@@ -17,6 +17,8 @@ use Corviz\Router\Route;
  * @method static Route prefix(string $pattern)
  * @method static Route middleware(string|array $middleware)
  * @method static mixed dispatch(?string $method = null, ?string $path = null)
+ * @method static Route|null found()
+ * @method static Route|null getRouteByAlias(string $alias)
  */
 class RouterFacade
 {
@@ -42,10 +44,5 @@ class RouterFacade
     public static function __callStatic(string $name, array $arguments): mixed
     {
         return self::dispatcher()->$name(...$arguments);
-    }
-
-    public function __construct()
-    {
-        //Prevent new instances
     }
 }
