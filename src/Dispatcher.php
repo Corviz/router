@@ -20,6 +20,11 @@ class Dispatcher
     private const SUPPORTED_HTTP_METHODS = ['get','post','put','patch','delete','options','head'];
 
     /**
+     * @var ExecutorInterface
+     */
+    protected ?ExecutorInterface $executor = null;
+
+    /**
      * @var Route[]
      */
     protected array $routes = [];
@@ -38,11 +43,10 @@ class Dispatcher
     /**
      * @param string|null $method
      * @param string|null $path
-     * @param array $params
      *
-     * @return Route|null
+     * @return mixed
      */
-    public function dispatch(?string $method = null, ?string $path = null, array &$params = []): ?Route
+    public function dispatch(?string $method = null, ?string $path = null): mixed
     {
         //Prepare defaults
         is_null($method) && $method = $_SERVER['REQUEST_METHOD'] ?? null;
@@ -53,6 +57,7 @@ class Dispatcher
         }
 
         $found = null;
+        $params = [];
 
         foreach ($this->routes as $route) {
             if ($route->match($method, $path, $params)) {
@@ -63,7 +68,15 @@ class Dispatcher
             }
         }
 
-        return $found;
+        if (is_null($found)) {
+            return null;
+        }
+
+        if (is_null($this->executor)) {
+            $this->executor = new RouteExecutor();
+        }
+
+        return $this->executor->execute($found, $params);
     }
 
     /**
@@ -107,6 +120,16 @@ class Dispatcher
     protected function register(Route $route): void
     {
         $this->routes[] = $route;
+    }
+
+    /**
+     * @param ExecutorInterface $executor
+     * @return $this
+     */
+    public function setExecutor(ExecutorInterface $executor): static
+    {
+        $this->executor = $executor;
+        return $this;
     }
 
     /**

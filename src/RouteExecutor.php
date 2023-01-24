@@ -4,24 +4,17 @@ namespace Corviz\Router;
 
 use Closure;
 
-class RouteExecutor
+class RouteExecutor implements ExecutorInterface
 {
     protected ?Route $route;
 
     /**
-     * @param Route|null $route
-     * @return static
-     */
-    public static function with(?Route $route): static
-    {
-        return new static($route);
-    }
-
-    /**
      * @return mixed
      */
-    public function execute(array $params): mixed
+    public function execute(?Route $route, array $params): mixed
     {
+        $this->route = $route;
+
         if (is_null($this->route)) {
             return null;
         }
@@ -74,13 +67,5 @@ class RouteExecutor
         }
 
         return $current;
-    }
-
-    /**
-     * @param Route $route
-     */
-    public function __construct(?Route $route)
-    {
-        $this->route = $route;
     }
 }

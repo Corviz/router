@@ -16,15 +16,11 @@ use Corviz\Router\Route;
  * @method static Route head(string $pattern, callable|array $action)
  * @method static Route prefix(string $pattern)
  * @method static Route middleware(string|array $middleware)
+ * @method static mixed dispatch(?string $method = null, ?string $path = null)
  */
 class RouterFacade
 {
     protected static ?Dispatcher $dispatcher = null;
-
-    public static function dispatch(?string $method = null, ?string $path = null, array &$params = []): ?Route
-    {
-        return self::dispatcher()->dispatch($method, $path, $params);
-    }
 
     /**
      * @return Dispatcher
