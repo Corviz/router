@@ -57,6 +57,8 @@ class Dispatcher
         is_null($method) && $method = $_SERVER['REQUEST_METHOD'] ?? null;
         is_null($path) && $path = $_SERVER['REQUEST_URI'] ?? null;
 
+        $path = parse_url($path, PHP_URL_PATH);
+
         if (!is_null($path)) {
             $path = trim($path, '/');
         }
