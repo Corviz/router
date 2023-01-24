@@ -20,6 +20,11 @@ class Dispatcher
     private const SUPPORTED_HTTP_METHODS = ['get','post','put','patch','delete','options','head'];
 
     /**
+     * @var Route|null
+     */
+    protected ?Route $found = null;
+
+    /**
      * @var ExecutorInterface
      */
     protected ?ExecutorInterface $executor = null;
@@ -56,19 +61,19 @@ class Dispatcher
             $path = trim($path, '/');
         }
 
-        $found = null;
+        $this->found = null;
         $params = [];
 
         foreach ($this->routes as $route) {
             if ($route->match($method, $path, $params)) {
                 unset($params[0]);
                 $params = array_values($params);
-                $found = $route;
+                $this->found = $route;
                 break;
             }
         }
 
-        if (is_null($found)) {
+        if (is_null($this->found)) {
             return null;
         }
 
@@ -76,7 +81,15 @@ class Dispatcher
             $this->executor = new RouteExecutor();
         }
 
-        return $this->executor->execute($found, $params);
+        return $this->executor->execute($this->found, $params);
+    }
+
+    /**
+     * @return Route|null
+     */
+    public function found(): Route|null
+    {
+        return $this->found;
     }
 
     /**
