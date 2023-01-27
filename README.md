@@ -38,7 +38,7 @@ Then, execute and output the results.
 echo Router::dispatch();
 !Router::found() && http_response_code(404);
 ```
-**Note:** _$output_ contains the value that was returned by controllers (a string in this example). 
+**Note:** _Router::dispatch()_ returns the value that was returned by controllers (a string in this example). 
 
 ### Controller classes
 
